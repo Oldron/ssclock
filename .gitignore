@@ -1,3 +1,4 @@
 /SSClock/bin/
 /SSClock/obj/
 /.vs/
+*.csproj.user

@@ -8,27 +8,19 @@ namespace LibTskTemperature {
 
   public static class TskTemperature {
 
-    /*private const String XmlTemp = @"<?xml version=""1.0"" ?>
-<termo>
-  <copyright>http://termo.tomsk.ru</copyright>
-  <url>http://termo.tomsk.ru/</url>
-  <current temp = ""-22.1"" date=""04.01.2016"" time=""14:29"" change=""+"" />
-  <day>
-    <min temp = ""-25.9"" date=""04.01"" time=""08:21"" />
-    <max temp = ""-20.5"" date=""03.01"" time=""14:54"" />
-    <avg temp = ""-23.7"" />
-  </day>
-  <week>
-    <min temp=""-28.9"" date=""03.01"" time=""08:07"" />
-    <max temp = ""1.2"" date=""29.12"" time=""14:06"" />
-    <avg temp = ""-15.3"" />
-  </week>
-  <month>
-    <min temp=""-28.9"" date=""03.01"" time=""08:07"" />
-    <max temp = ""2.7"" date=""09.12"" time=""12:30"" />
-    <avg temp = ""-8.4"" />
-  </month>
-</termo> ";*/
+    /*<?xml version="1.1" encoding="UTF-8"?>
+<city>
+    <id>tomsk</id>
+    <url>http://termopogoda.ru/tomsk/</url>
+    <name>Томск</name>
+    <name_gen>Томске</name_gen>
+    <description>Актуальная температура в г. Томске</description>
+    <data>
+        <date>01.06.2019</date>
+        <time>18:44</time>
+        <temp change="">14.1</temp>
+    </data>
+</city>*/
 
     /// <summary> Last web request time </summary>
     private static DateTime _dtmLastReq = DateTime.MinValue;
@@ -56,9 +48,9 @@ namespace LibTskTemperature {
         var xml = new XmlDocument();
         xml.LoadXml( _xmlLastReq );
 
-        var node = xml["termo"]["current"];
+        var node = xml["city"]["data"]["temp"];
 
-        tempCurr = node.Attributes[ "temp" ].Value;
+        tempCurr = node.InnerText;
 
         var changeVal = node.Attributes[ "change" ].Value;
         var change = String.Empty;
@@ -99,7 +91,8 @@ namespace LibTskTemperature {
 
           _dtmLastReq = DateTime.Now;
           using( var client = new WebClient() ) {
-            _xmlLastReq = client.DownloadString( "http://termo.tomsk.ru/data.xml" );
+            _xmlLastReq = client.DownloadString("http://termopogoda.ru/data_tomsk.xml");
+            _xmlLastReq = _xmlLastReq.Replace("\"1.1\"", "\"1.0\""); // Fix error on parse XML ver. 1.1
           }
 
         } catch( Exception ) { }
