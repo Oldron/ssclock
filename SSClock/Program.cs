@@ -32,12 +32,8 @@
                     break;
 
                 case "/c": //configure
-                           //inform the user no options can be set in this screen saver
-                    MessageBox.Show(
-                                    "This screensaver has no options that you can set",
-                                    "Blue Screen Saver",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                    FormConfig dlg1 = new FormConfig();
+                    dlg1.ShowDialog();
                     break;
 
                 default:
