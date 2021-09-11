@@ -27,7 +27,7 @@ namespace SSClock {
 
         private void LoadSettings() {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(REG_KEY_APP);
-            if (key == null) {
+            if ( key == null ) {
                 tbApiKey.Text = "";
             } else {
                 tbApiKey.Text = (string)key.GetValue(REG_FLD_API_KEY);
