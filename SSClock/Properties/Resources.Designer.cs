@@ -59,5 +59,40 @@ namespace SSClock.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
+        ///    {
+        ///        &quot;id&quot;: 833,
+        ///        &quot;name&quot;: &quot;Ḩeşār-e Sefīd&quot;,
+        ///        &quot;state&quot;: &quot;&quot;,
+        ///        &quot;country&quot;: &quot;IR&quot;,
+        ///        &quot;coord&quot;: {
+        ///            &quot;lon&quot;: 47.159401,
+        ///            &quot;lat&quot;: 34.330502
+        ///        }
+        ///    },
+        ///    {
+        ///        &quot;id&quot;: 2960,
+        ///        &quot;name&quot;: &quot;‘Ayn Ḩalāqīm&quot;,
+        ///        &quot;state&quot;: &quot;&quot;,
+        ///        &quot;country&quot;: &quot;SY&quot;,
+        ///        &quot;coord&quot;: {
+        ///            &quot;lon&quot;: 36.321911,
+        ///            &quot;lat&quot;: 34.940079
+        ///        }
+        ///    },
+        ///    {
+        ///        &quot;id&quot;: 3245,
+        ///        &quot;name&quot;: &quot;Taglag&quot;,
+        ///        &quot;state&quot;: &quot;&quot;,
+        ///        &quot;country&quot;: &quot;IR&quot;,
+        ///        &quot;coord [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string city_list {
+            get {
+                return ResourceManager.GetString("city.list", resourceCulture);
+            }
+        }
     }
 }
