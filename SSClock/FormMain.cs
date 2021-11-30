@@ -24,7 +24,7 @@
     static extern Boolean GetClientRect(IntPtr hWnd, out Rectangle lpRect);
     #endregion
 
-    readonly Boolean isPreviewMode = false;
+    readonly bool isPreviewMode = false;
 
 
     #region Construtors
@@ -98,7 +98,7 @@
     //start off OriginalLoction with an X and Y of int.MaxValue, because
     //it is impossible for the cursor to be at that position. That way, we
     //know if this variable has been set yet.
-    Point originalLocation = new Point(Int32.MaxValue, Int32.MaxValue);
+    Point originalLocation = new Point(int.MaxValue, int.MaxValue);
 
 
     private void MainForm_MouseMove(Object sender, MouseEventArgs e)
@@ -111,7 +111,7 @@
       }
 
       //see if originallocat5ion has been set
-      if (this.originalLocation.X == Int32.MaxValue & this.originalLocation.Y == Int32.MaxValue)
+      if (this.originalLocation.X == int.MaxValue & this.originalLocation.Y == int.MaxValue)
       {
         this.originalLocation = e.Location;
       }
@@ -126,22 +126,26 @@
 
 
     #region Draw
-    private const Int32 SZ_TIME = 160;
-    private const Int32 SZ_DATE = 48;
-    private const Int32 IDX_DRAW_POS_CHANGE = 15;
+    /** Time font size pixels for 1440 height */
+    private const int SZ_TIME = 160;
+    /** Date font size pixels for 1440 height */
+    private const int SZ_DATE = 48;
+    /** Line space pixels for 1440 height */
+    private const int LINE_SPACE = 8;
+    /** Time to change position in seconds */
+    private const int IDX_DRAW_POS_CHANGE = 15;
 
     private Timer aTimer = null;
     private readonly Random rnd = new Random();
-    private readonly Font fntTime = new Font("Arial Black", SZ_TIME);
-    private readonly Font fntDate = new Font("Arial Black", SZ_DATE);
+    // private readonly Font fntTime = new Font("Arial Black", SZ_TIME);
+    // private readonly Font fntDate = new Font("Arial Black", SZ_DATE);
     private readonly FontFamily fontFamily = new FontFamily("Arial Black");
     private readonly SolidBrush drawBrush = new SolidBrush(Color.DarkGray);
-    private Int32 cntDraws = -2;
-    private Double x = 0D;
-    private Double y = 0D;
-    private const Int32 LINE_SPACE = 8;
+    private int cntDraws = -2;
+    private double x = 0D;
+    private double y = 0D;
     private RectangleF boundClr = new RectangleF();
-    private Int32 minutePre = -1;
+    private int minutePre = -1;
 
 
     private void timerStart()
@@ -201,6 +205,12 @@
 
       this.minutePre = now.Minute;
 
+      var szTime = (int)(this.Size.Height * (SZ_TIME / 1440.0));
+      var szDate = (int)(this.Size.Height * (SZ_DATE / 1440.0));
+      var lineSpace = (int)(this.Size.Height * (LINE_SPACE / 1440.0));
+      var fntTime = new Font("Arial Black", szTime);
+      var fntDate = new Font("Arial Black", szDate);
+
       var formGraphics = this.CreateGraphics();
       formGraphics.SmoothingMode = SmoothingMode.HighQuality;
       var strTime = now.ToString("HH:mm");
@@ -210,10 +220,10 @@
       {
         strDate = String.Concat(strDate, "\n", temp);
       }
-      var szStrTime = formGraphics.MeasureString(strTime, this.fntTime);
-      var szStrDate = formGraphics.MeasureString(strDate, this.fntDate);
-      var szStr = new Size((Int32)Math.Max(szStrTime.Width, szStrDate.Width),
-                            (Int32)(szStrTime.Height + LINE_SPACE + szStrDate.Height));
+      var szStrTime = formGraphics.MeasureString(strTime, fntTime);
+      var szStrDate = formGraphics.MeasureString(strDate, fntDate);
+      var szStr = new Size((int)Math.Max(szStrTime.Width, szStrDate.Width),
+                            (int)(szStrTime.Height + lineSpace + szStrDate.Height));
 
       if (0 > this.cntDraws || this.cntDraws >= IDX_DRAW_POS_CHANGE)
       {
@@ -225,11 +235,11 @@
       var drawFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
 
       var path = new GraphicsPath();
-      path.AddString(strTime, this.fontFamily, (Int32)FontStyle.Regular, SZ_TIME,
-        new Point((Int32)this.x, (Int32)this.y),
+      path.AddString(strTime, this.fontFamily, (int)FontStyle.Regular, szTime,
+        new Point((int)this.x, (int)this.y),
         drawFormat);
-      path.AddString(strDate, this.fontFamily, (Int32)FontStyle.Regular, SZ_DATE,
-        new Point((Int32)this.x, (Int32)(this.y + (szStrTime.Height / 2) + LINE_SPACE)),
+      path.AddString(strDate, this.fontFamily, (int)FontStyle.Regular, szDate,
+        new Point((int)this.x, (int)(this.y + (szStrTime.Height / 2) + lineSpace)),
         drawFormat);
 
       if (Math.Abs(this.boundClr.Width) > 0.1)
